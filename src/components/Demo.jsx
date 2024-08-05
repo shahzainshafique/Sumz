@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { copy, linkIcon, loader, tick } from "../assets";
 import { useLazyGetSummaryQuery } from "../services/article";
@@ -11,8 +11,10 @@ const Demo = () => {
   const [allArticles, setAllArticles] = useState([]);
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
   const [copied, setCopied] = useState("");
+  const inputRef = useRef(null);
 
   useEffect(() => {
+    inputRef.current?.focus();
     const articlesFromLocalStorage = JSON.parse(
       localStorage.getItem("articles")
     );
@@ -51,6 +53,7 @@ const Demo = () => {
           />
           <input
             type="url"
+            ref={inputRef}
             placeholder="Enter a URL"
             value={article.url}
             onChange={(e) => {
